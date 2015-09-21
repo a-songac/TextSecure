@@ -96,7 +96,7 @@ public class ConversationAdapter extends CursorAdapter implements AbsListView.Re
                                       selectionClickListener, groupThread, pushDestination);
         break;
       case MESSAGE_TYPE_UPDATE:
-        ((ConversationUpdateItem)view).set(messageRecord);
+        ((ConversationUpdateItem)view).set(messageRecord, locale);
         break;
       default:
         throw new AssertionError("Unknown type!");
@@ -147,9 +147,9 @@ public class ConversationAdapter extends CursorAdapter implements AbsListView.Re
     String type                 = cursor.getString(cursor.getColumnIndexOrThrow(MmsSmsDatabase.TRANSPORT));
     MessageRecord messageRecord = getMessageRecord(id, cursor, type);
 
-    if      (messageRecord.isGroupAction()) return MESSAGE_TYPE_UPDATE;
-    else if (messageRecord.isOutgoing())    return MESSAGE_TYPE_OUTGOING;
-    else                                    return MESSAGE_TYPE_INCOMING;
+    if      (messageRecord.isGroupAction() || messageRecord.isCallLog()) return MESSAGE_TYPE_UPDATE;
+    else if (messageRecord.isOutgoing())                                 return MESSAGE_TYPE_OUTGOING;
+    else                                                                 return MESSAGE_TYPE_INCOMING;
   }
 
   private MessageRecord getMessageRecord(long messageId, Cursor cursor, String type) {
