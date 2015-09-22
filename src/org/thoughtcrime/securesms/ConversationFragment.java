@@ -40,12 +40,10 @@ import org.thoughtcrime.securesms.mms.Slide;
 import org.thoughtcrime.securesms.recipients.RecipientFactory;
 import org.thoughtcrime.securesms.recipients.Recipients;
 import org.thoughtcrime.securesms.sms.MessageSender;
-import org.thoughtcrime.securesms.util.DirectoryHelper;
 import org.thoughtcrime.securesms.util.FutureTaskListener;
 import org.thoughtcrime.securesms.util.ProgressDialogAsyncTask;
 import org.thoughtcrime.securesms.util.SaveAttachmentTask;
 import org.thoughtcrime.securesms.util.SaveAttachmentTask.Attachment;
-import org.thoughtcrime.securesms.util.ServiceUtil;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -126,8 +124,7 @@ public class ConversationFragment extends ListFragment
   private void initializeListAdapter() {
     if (this.recipients != null && this.threadId != -1) {
       this.setListAdapter(new ConversationAdapter(getActivity(), masterSecret, locale, selectionClickListener,
-                                                  (!this.recipients.isSingleRecipient()) || this.recipients.isGroupRecipient(),
-                                                  DirectoryHelper.isPushDestination(getActivity(), this.recipients)));
+                                                  (!this.recipients.isSingleRecipient()) || this.recipients.isGroupRecipient()));
       getListView().setRecyclerListener((ConversationAdapter)getListAdapter());
       getLoaderManager().restartLoader(0, null, this);
     }

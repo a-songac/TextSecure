@@ -66,12 +66,10 @@ public class ConversationAdapter extends CursorAdapter implements AbsListView.Re
   private final MasterSecret           masterSecret;
   private final Locale                 locale;
   private final boolean                groupThread;
-  private final boolean                pushDestination;
   private final LayoutInflater         inflater;
 
   public ConversationAdapter(Context context, MasterSecret masterSecret, Locale locale,
-                             SelectionClickListener selectionClickListener, boolean groupThread,
-                             boolean pushDestination)
+                             SelectionClickListener selectionClickListener, boolean groupThread)
   {
     super(context, null, 0);
     this.context                = context;
@@ -79,7 +77,6 @@ public class ConversationAdapter extends CursorAdapter implements AbsListView.Re
     this.locale                 = locale;
     this.selectionClickListener = selectionClickListener;
     this.groupThread            = groupThread;
-    this.pushDestination        = pushDestination;
     this.inflater               = LayoutInflater.from(context);
   }
 
@@ -93,7 +90,7 @@ public class ConversationAdapter extends CursorAdapter implements AbsListView.Re
       case MESSAGE_TYPE_INCOMING:
       case MESSAGE_TYPE_OUTGOING:
         ((ConversationItem) view).set(masterSecret, messageRecord, locale, batchSelected,
-                                      selectionClickListener, groupThread, pushDestination);
+                                      selectionClickListener, groupThread);
         break;
       case MESSAGE_TYPE_UPDATE:
         ((ConversationUpdateItem)view).set(messageRecord, locale);

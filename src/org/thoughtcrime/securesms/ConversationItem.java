@@ -81,7 +81,6 @@ public class ConversationItem extends LinearLayout implements Recipient.Recipien
   private MasterSecret  masterSecret;
   private Locale        locale;
   private boolean       groupThread;
-  private boolean       pushDestination;
   private Recipient     recipient;
 
   private View            bodyBubble;
@@ -167,7 +166,7 @@ public class ConversationItem extends LinearLayout implements Recipient.Recipien
                   @NonNull Locale locale,
                   @NonNull Set<MessageRecord> batchSelected,
                   @NonNull SelectionClickListener selectionClickListener,
-                  boolean groupThread, boolean pushDestination)
+                  boolean groupThread)
   {
     this.masterSecret           = masterSecret;
     this.messageRecord          = messageRecord;
@@ -175,7 +174,6 @@ public class ConversationItem extends LinearLayout implements Recipient.Recipien
     this.batchSelected          = batchSelected;
     this.selectionClickListener = selectionClickListener;
     this.groupThread            = groupThread;
-    this.pushDestination        = pushDestination;
     this.recipient              = messageRecord.getIndividualRecipient();
 
     this.recipient.addListener(this);
@@ -492,7 +490,7 @@ public class ConversationItem extends LinearLayout implements Recipient.Recipien
         intent.putExtra(MessageDetailsActivity.MASTER_SECRET_EXTRA, masterSecret);
         intent.putExtra(MessageDetailsActivity.MESSAGE_ID_EXTRA, messageRecord.getId());
         intent.putExtra(MessageDetailsActivity.TYPE_EXTRA, messageRecord.isMms() ? MmsSmsDatabase.MMS_TRANSPORT : MmsSmsDatabase.SMS_TRANSPORT);
-        intent.putExtra(MessageDetailsActivity.IS_PUSH_GROUP_EXTRA, groupThread && pushDestination);
+        intent.putExtra(MessageDetailsActivity.IS_PUSH_GROUP_EXTRA, groupThread && messageRecord.isPush());
         context.startActivity(intent);
       } else if (!messageRecord.isOutgoing() && messageRecord.isIdentityMismatchFailure()) {
         handleApproveIdentity();
